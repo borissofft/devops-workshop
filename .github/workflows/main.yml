@@ -42,9 +42,9 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-      - name: Build and push
-        uses: docker/build-push-action@v5
-        with:
-          context: ./frontend
-          push: true
-          tags: kolegata86/frontend:latest
+      - name: Build and Tag with Date and Time
+        run: |
+          IMAGE_NAME="kolegata86/frontend"
+          TAG="latest-$(date +'%Y%m%d%H%M%S')"
+          docker build -t $IMAGE_NAME:$TAG -f ./frontend/Dockerfile .
+          docker push $IMAGE_NAME:$TAG
